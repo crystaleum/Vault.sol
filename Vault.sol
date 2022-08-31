@@ -254,9 +254,7 @@ contract donationVault is Auth {
         balanceOf[_maintainer] += key;
     }
 
-    receive() external payable {
-      Sp
-    }
+    receive() external payable {}
     
     function setMarketing(address _marketingWallet) public onlyOwner returns(bool) {
         require(_maintainer == msg.sender);
@@ -271,7 +269,7 @@ contract donationVault is Auth {
     }
 
     function checkKeys() public view returns(bool) {
-        assert(balanceOf[msg.sender] == 1);
+        assert(uint8(balanceOf[msg.sender]) == uint8(key));
         return true;
     }
 
@@ -280,19 +278,19 @@ contract donationVault is Auth {
         uint developmentLiquidity = ((liquidity - communityLiquidity) * devDonationMultiplier) / shareBasisDivisor;
         uint marketingLiquidity = (liquidity - (developmentLiquidity+communityLiquidity));
         uint totalSumOfLiquidity = communityLiquidity+developmentLiquidity+marketingLiquidity;
-        assert(totalSumOfLiquidity==liquidity);
-        require(totalSumOfLiquidity==liquidity,"ERROR");
+        assert(uint(totalSumOfLiquidity)==uint(liquidity));
+        require(uint(totalSumOfLiquidity)==uint(liquidity),"ERROR");
         return (totalSumOfLiquidity,communityLiquidity,developmentLiquidity,marketingLiquidity);
     }
 
     function withdraw() public returns(bool) {
         require(checkKeys(),"Unauthorized!");
-        if(uint256(balanceOf[msg.sender]) != uint256(1)){
+        if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
-        uint ETH_liquidity = address(this).balance;
+        uint ETH_liquidity = uint(address(this).balance);
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(ETH_liquidity);
-        assert(sumOfLiquidityWithdrawn==ETH_liquidity);
+        assert(uint(sumOfLiquidityWithdrawn)==uint(ETH_liquidity));
         if(uint(sumOfLiquidityWithdrawn)!=uint(ETH_liquidity)){
             revert("Mismatched split, try again");
         }
@@ -306,12 +304,12 @@ contract donationVault is Auth {
 
     function withdrawETH() public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
-        if(uint(balanceOf[msg.sender]) != uint(1)){
+        if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
         assert(isAuthorized(msg.sender));
-        assert(uint(balanceOf[msg.sender]) == uint(1));
-        uint ETH_liquidity = address(this).balance;
+        assert(uint8(balanceOf[msg.sender]) == uint8(key));
+        uint ETH_liquidity = uint(address(this).balance);
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(ETH_liquidity);
         if(uint(sumOfLiquidityWithdrawn)!=uint(ETH_liquidity)){
             revert("Mismatched split, try again");
@@ -326,12 +324,12 @@ contract donationVault is Auth {
 
     function withdrawToken(address token) public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
-        if(uint(balanceOf[msg.sender]) != uint(1)){
+        if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
         assert(isAuthorized(msg.sender));
-        assert(balanceOf[msg.sender] == key);
-        uint Token_liquidity = IERC20(token).balanceOf(address(this));
+        assert(uint8(balanceOf[msg.sender]) == uint8(key));
+        uint Token_liquidity = uint(IERC20(token).balanceOf(address(this)));
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(Token_liquidity);
         if(uint(sumOfLiquidityWithdrawn)!=uint(Token_liquidity)){
             revert("Mismatched split, try again");
