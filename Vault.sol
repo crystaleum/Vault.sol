@@ -254,7 +254,9 @@ contract donationVault is Auth {
         balanceOf[_maintainer] += key;
     }
 
-    receive() external payable {}
+    receive() external payable {
+      Sp
+    }
     
     function setMarketing(address _marketingWallet) public onlyOwner returns(bool) {
         require(_maintainer == msg.sender);
@@ -324,7 +326,7 @@ contract donationVault is Auth {
 
     function withdrawToken(address token) public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
-        if(uint256(balanceOf[msg.sender]) != uint256(1)){
+        if(uint(balanceOf[msg.sender]) != uint(1)){
             revert("Unauthorized!");
         }
         assert(isAuthorized(msg.sender));
