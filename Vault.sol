@@ -229,6 +229,7 @@ abstract contract Auth {
 
 contract donationVault is Auth {
     using Address for address;
+    
     string public name     = unicode"💸VAULT🔒";
     string public symbol   = unicode"🔑";
 
@@ -245,8 +246,7 @@ contract donationVault is Auth {
     event Withdrawal(address indexed src, uint wad);
     event WithdrawToken(address indexed src, address indexed token, uint wad);
 
-    mapping (address => uint)                       public  balanceOf;
-    mapping (address => mapping (address => uint))  public  allowance;
+    mapping (address => uint8) public  balanceOf;
     constructor() Auth(_community, _development, _marketing, _maintainer) {
         balanceOf[_community] += key;
         balanceOf[_development] += key;
