@@ -234,7 +234,7 @@ contract donationVault is Auth {
     string public symbol   = unicode"🔑";
 
     uint public devDonationMultiplier = 2000; // 20%
-    uint public communityDonationMultiplier = 5000; // 50%
+    uint public communityDonationMultiplier = 5500; // 55%
     uint public immutable shareBasisDivisor = 10000; 
     uint8 public key = 1; // keyholders get 1 key each
 
@@ -343,4 +343,5 @@ contract donationVault is Auth {
         emit WithdrawToken(address(this), address(token), sumOfLiquidityWithdrawn);
         return true;
     }
+
 }
