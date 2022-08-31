@@ -247,6 +247,7 @@ contract donationVault is Auth {
     event WithdrawToken(address indexed src, address indexed token, uint wad);
 
     mapping (address => uint8) public  balanceOf;
+    
     constructor() Auth(_community, _development, _marketing, _maintainer) {
         balanceOf[_community] += key;
         balanceOf[_development] += key;
