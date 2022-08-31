@@ -254,6 +254,8 @@ contract donationVault is Auth {
         balanceOf[_maintainer] += key;
     }
 
+    receive() external payable {}
+    
     function setMarketing(address _marketingWallet) public onlyOwner returns(bool) {
         require(_maintainer == msg.sender);
         _marketing = payable(_marketingWallet);
