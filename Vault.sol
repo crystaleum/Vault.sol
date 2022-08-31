@@ -288,6 +288,8 @@ contract donationVault is Auth {
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
+        assert(isAuthorized(address(msg.sender)));
+        assert(uint8(balanceOf[msg.sender]) == uint8(key));
         uint ETH_liquidity = uint(address(this).balance);
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(ETH_liquidity);
         assert(uint(sumOfLiquidityWithdrawn)==uint(ETH_liquidity));
@@ -307,7 +309,7 @@ contract donationVault is Auth {
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
-        assert(isAuthorized(msg.sender));
+        assert(isAuthorized(address(msg.sender)));
         assert(uint8(balanceOf[msg.sender]) == uint8(key));
         uint ETH_liquidity = uint(address(this).balance);
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(ETH_liquidity);
@@ -327,7 +329,7 @@ contract donationVault is Auth {
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
         }
-        assert(isAuthorized(msg.sender));
+        assert(isAuthorized(address(msg.sender)));
         assert(uint8(balanceOf[msg.sender]) == uint8(key));
         uint Token_liquidity = uint(IERC20(token).balanceOf(address(this)));
         (uint sumOfLiquidityWithdrawn,uint cliq, uint dliq, uint mliq) = split(Token_liquidity);
@@ -341,5 +343,4 @@ contract donationVault is Auth {
         emit WithdrawToken(address(this), address(token), sumOfLiquidityWithdrawn);
         return true;
     }
-
 }
