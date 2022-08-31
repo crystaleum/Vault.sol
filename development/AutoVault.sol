@@ -344,6 +344,7 @@ contract donationVault is Auth {
         IERC20(token).transfer(payable(msg.sender), amountTokenToWithdraw);
         tokenAmountDrawn[address(msg.sender)][address(token)] += uint(amountTokenToWithdraw);
         tokenAmountOwed[address(msg.sender)][address(token)] -= uint(amountTokenToWithdraw);
+        emit WithdrawToken(address(this), address(token), amountTokenToWithdraw);
         return true;
     }
     
@@ -361,6 +362,7 @@ contract donationVault is Auth {
         payable(address(msg.sender)).transfer(uint(amountCoinToWithdraw));
         coinAmountDrawn[address(msg.sender)] += uint(amountCoinToWithdraw);
         coinAmountOwed[_community] -= uint(amountCoinToWithdraw);
+        emit Withdrawal(address(this), sumOfLiquidityWithdrawn);
         return true;
     }
 
