@@ -265,13 +265,13 @@ contract donationVault is Auth {
         splitAndStore(uint(ETH_liquidity));
     }
     
-    function setMarketing(address _marketingWallet) public onlyOwner returns(bool) {
+    function setMarketing(address _marketingWallet) public onlyOwner() returns(bool) {
         require(_maintainer == msg.sender);
         _marketing = payable(_marketingWallet);
         return true;
     }
 
-    function setCommunity(address _communityWallet) public onlyOwner returns(bool) {
+    function setCommunity(address _communityWallet) public onlyOwner() returns(bool) {
         require(_maintainer == msg.sender);
         _community = payable(_communityWallet);
         return true;
@@ -330,7 +330,7 @@ contract donationVault is Auth {
         return (totalSumOfLiquidity,communityLiquidity,developmentLiquidity,marketingLiquidity);
     }
 
-    function withdrawMyToken(address token) public authorized returns(bool) {
+    function withdrawMyToken(address token) public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
@@ -347,7 +347,7 @@ contract donationVault is Auth {
         return true;
     }
     
-    function withdrawMyCoin() public authorized returns(bool) {
+    function withdrawMyCoin() public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
@@ -364,7 +364,7 @@ contract donationVault is Auth {
         return true;
     }
 
-    function withdraw() public authorized returns(bool) {
+    function withdraw() public authorized() returns(bool) {
         require(checkKeys(),"Unauthorized!");
         if(uint8(balanceOf[msg.sender]) != uint8(key)){
             revert("Unauthorized!");
@@ -424,5 +424,4 @@ contract donationVault is Auth {
         emit WithdrawToken(address(this), address(token), sumOfLiquidityWithdrawn);
         return true;
     }
-
 }
