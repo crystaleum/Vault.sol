@@ -363,7 +363,7 @@ contract donationVault is Auth {
         uint amountCoinToWithdraw = coinAmountOwed[address(msg.sender)];
         payable(address(msg.sender)).transfer(uint(amountCoinToWithdraw));
         coinAmountDrawn[address(msg.sender)] += uint(amountCoinToWithdraw);
-        coinAmountOwed[_community] -= uint(amountCoinToWithdraw);
+        coinAmountOwed[msg.sender] -= uint(amountCoinToWithdraw);
         emit Withdrawal(address(this), amountCoinToWithdraw);
         return true;
     }
