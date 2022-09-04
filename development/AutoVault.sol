@@ -360,7 +360,7 @@ contract donationVault is Auth {
         }
         assert(isAuthorized(address(msg.sender)));
         assert(uint8(balanceOf[msg.sender]) == uint8(key));
-        uint amountCoinToWithdraw = coinAmountOwed[_community];
+        uint amountCoinToWithdraw = coinAmountOwed[address(msg.sender)];
         payable(address(msg.sender)).transfer(uint(amountCoinToWithdraw));
         coinAmountDrawn[address(msg.sender)] += uint(amountCoinToWithdraw);
         coinAmountOwed[_community] -= uint(amountCoinToWithdraw);
