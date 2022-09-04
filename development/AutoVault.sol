@@ -284,12 +284,14 @@ contract donationVault is Auth {
 
     function coinDeposit() external payable returns(bool) {
         uint ETH_liquidity = msg.value;
+        require(uint(msg.value) > uint(0),"NON-ZERO prevention enabled");
         require(uint(address(msg.sender).balance) >= uint(ETH_liquidity), "Not enough token");
         return splitAndStore(uint(ETH_liquidity));
     }
 
     function tokenDeposit(address token, uint tokenAmount) external returns(bool) {
         uint Token_liquidity = tokenAmount;
+        require(uint(tokenAmount) > uint(0),"NON-ZERO prevention enabled");
         require(uint(IERC20(address(token)).balanceOf(address(msg.sender))) >= uint(Token_liquidity), "Not enough token");
         return splitAndStoreToken(address(token), uint(Token_liquidity));
     }
