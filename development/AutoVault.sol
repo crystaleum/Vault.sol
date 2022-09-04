@@ -252,7 +252,7 @@ contract donationVault is Auth {
     mapping(address => mapping(address => uint)) private tokenAmountOwed;
     mapping(address => mapping(address => uint)) private tokenAmountDrawn;
 
-    constructor() Auth(_community, _development, _marketing, _maintainer) {
+    constructor() Auth(_community, _development, _marketing, _maintainer) payable {
         balanceOf[_community] += key;
         balanceOf[_development] += key;
         balanceOf[_marketing] += key;
