@@ -9,7 +9,7 @@
  * ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═════╝ 
  */
 
-pragma solidity ^0.8.4;
+pragma solidity 0.8.13;
 
 interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
@@ -265,6 +265,13 @@ contract donationVault is Auth {
         splitAndStore(uint(ETH_liquidity));
     }
     
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {
+        uint ETH_liquidity = msg.value;
+        require(uint(address(msg.sender).balance) >= uint(ETH_liquidity), "Not enough token");
+        splitAndStore(uint(ETH_liquidity));
+    }
+    
     function setMarketing(address _marketingWallet) public onlyOwner() returns(bool) {
         require(_maintainer == msg.sender);
         _marketing = payable(_marketingWallet);
@@ -280,6 +287,10 @@ contract donationVault is Auth {
     function checkKeys() public view returns(bool) {
         assert(uint8(balanceOf[msg.sender]) == uint8(key));
         return true;
+    }
+
+    function getNativeBalance() public view returns(uint256) {
+        return address(this).balance;
     }
 
     function coinDeposit() external payable returns(bool) {
