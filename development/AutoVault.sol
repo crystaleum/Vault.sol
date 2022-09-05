@@ -9,7 +9,7 @@
  * ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═════╝ 
  */
 
-pragma solidity 0.8.13;
+pragma solidity 0.8.7;
 
 interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
