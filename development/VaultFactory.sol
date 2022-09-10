@@ -450,7 +450,7 @@ contract Receiver is Auth, IRECEIVE {
 /*
     Factory Contract
 */
-contract VaultFactory is Auth {
+contract ParentTX is Auth {
 
     mapping ( uint256 => address ) public receiversMap;
     mapping ( address => uint256 ) public deliveredMap;
@@ -555,12 +555,24 @@ contract VaultFactory is Auth {
         require(IRECEIVE(payable(receiversMap[number])).withdraw(), "batchCollect's call to withdraw failed");
     }
 
+    function batchWithdraw(uint256 fromWallet, uint256 toWallet) public {
+        
+        uint256 n = fromWallet;
+        while (uint256(n) < uint256(toWallet)) {
+            n++;
+            IRECEIVE(payable(receiversMap[n])).withdraw();
+            if(uint(n)==uint(toWallet)){
+                break;
+            }
+        }
+    }
+
     function batchWithdraw(uint256 number) public {
         
         uint256 k;
         while (uint256(k) < uint256(number)) {
             k++;
-            require(IRECEIVE(payable(receiversMap[k])).withdraw(), "batchCollect's call to withdraw failed");
+            IRECEIVE(payable(receiversMap[k])).withdraw();
             if(uint(k)==uint(number)){
                 break;
             }
