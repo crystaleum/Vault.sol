@@ -555,7 +555,7 @@ contract ParentTX is Auth {
         require(IRECEIVE(payable(receiversMap[number])).withdraw(), "batchCollect's call to withdraw failed");
     }
 
-    function batchWithdraw(uint256 fromWallet, uint256 toWallet) public {
+    function batchWithdrawRange(uint256 fromWallet, uint256 toWallet) public {
         
         uint256 n = fromWallet;
         while (uint256(n) < uint256(toWallet)) {
